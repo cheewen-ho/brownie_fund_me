@@ -1,0 +1,40 @@
+# 依赖，声明从github的哪个库下载chainlink合约包
+dependencies:
+  # 格式为：- <organization/repo>@<version>
+  - smartcontractkit/chainlink-brownie-contracts@1.1.1
+
+
+# 重新映射编译方式，告诉编译器，遇到@chainlink替换为上述声明的依赖
+compiler:
+  solc:
+    remappings:
+      - '@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1'
+
+
+dotenv: .env
+# 定义钱包信息，表明使用环境变量中的私钥作为账户
+wallets:
+  from_key: ${PRIVATE_KEY}
+
+
+# 对于不同的网络，定义不同的喂价合约地址，同时声明是否进行用于开源代码的验证
+networks:
+  default: development
+  # default是brownie的默认选择网路，如果不加--network就默认选择default，可以自己设置成其他网络，也可以不设置默认就是development
+  sepolia:
+    eth_usd_price_feed: "0x694AA1769357215DE4FAC081bf1f309aDC325306"
+    verify: True
+  mainnet-fork-dev:
+    # mainnet-fork-dev是自己设置的主链分叉
+    eth_usd_price_feed: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"
+    verify: False
+  development:
+    verify: False
+  ganache-local:
+    verify: False
+
+
+# chainlink喂价合约地址：
+# rinkeby: 0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
+# sepolia: 0x694AA1769357215DE4FAC081bf1f309aDC325306
+# ETH主网：0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
