@@ -22,9 +22,10 @@ def test_fund_and_withdraw():
 def test_only_owner_can_withdraw():
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         pytest.skip("only for local testing")
+        # 利用pytest.skip()跳过该测试函数
     fund_me = deploy_fund_me()
     bad_actor = accounts.add()
-    # accounts.sdd()会随机返回一个账户
+    # accounts.add()会随机返回一个账户
     # 下面的语句表示如果fund...返回exce...就表示测试通过
     with pytest.raises(exceptions.VirtualMachineError):
         fund_me.withdraw({"from": bad_actor})

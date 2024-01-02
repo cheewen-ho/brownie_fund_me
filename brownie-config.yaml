@@ -1,14 +1,17 @@
 # 依赖，声明从github的哪个库下载chainlink合约包
 dependencies:
-  # 格式为：- <organization/repo>@<version>
+  # 格式为：- <organization/repo>@<version>，<组织/包名>@<版本>
   - smartcontractkit/chainlink-brownie-contracts@1.1.1
-
+  # 这个就是github的库，里面便是Chainlink的各种合约
+  
 
 # 重新映射编译方式，告诉编译器，遇到@chainlink替换为上述声明的依赖
 compiler:
   solc:
     remappings:
       - '@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1'
+      # @chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol被重映射为：
+      # smartcontractkit/chainlink-brownie-contracts@1.1.1/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol
 
 
 dotenv: .env
@@ -23,7 +26,7 @@ networks:
   # default是brownie的默认选择网路，如果不加--network就默认选择default，可以自己设置成其他网络，也可以不设置默认就是development
   sepolia:
     eth_usd_price_feed: "0x694AA1769357215DE4FAC081bf1f309aDC325306"
-    verify: True
+    verify: False
   mainnet-fork-dev:
     # mainnet-fork-dev是自己设置的主链分叉
     eth_usd_price_feed: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"
